@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    browserify --standalone estraverse estraverse-master/estraverse.js > estraverse-master/build/estraverse.browser.js 
+    <script src="esmangle.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
 
     <title>Mini App</title>
 
@@ -11,20 +16,46 @@
       
       body {
         background: lavender;
+        margin:0 auto;
+        overflow-x: hidden;
+        overflow-y: hidden;
       }
       
-      div.user-photo {
+      div.user-photo{
         width: 150px;
         height: 150px;
         margin: 1em auto;
         background: #fff;
-      }
+      } 
+      .circular {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+.circular img {
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
       
       div.details {
         font-size: 2.3em;
         margin: 2.5em 0.2em 0.2em 0.2em;
         color: #fff;
         padding: 1.1em;
+        min-height:6em;
+        background-color:#6200ee;
+        
       }
       
       footer {
@@ -40,21 +71,31 @@
       
       footer button.mdc-icon-button {
         margin: 0.5em;
+        color:white;
       }
-      div.messages{
-        
-      }
+      
+      
       
     </style>
   </head>
+  
   <body>
-    <h2>Folake</h2>
-    <div class='user-photo mdc-elevation--z3'>
-      <a href="https://placeholder.com"><img src="https://via.placeholder.com/150"></a>
+    <h2 style="text-align:center; margin-bottom:70px;text-transform:capitalise">Folakemi's Profile</h2>
+    
+    <div class="user-photo circular mdc-elevation--z3">
+      <img src="https://via.placeholder.com/150x150">
     </div>
-
+    
     <div class="details mdc-elevation--z3"></div>
-    <div class='mesages'></div>
+    
+    <div class="messages"></div>
+    
+    <footer>
+      <button class="mdc-icon-button material-icons" id="btn-address">email</button>
+      <button class="mdc-icon-button material-icons" id="btn-phone">phone_iphone</button>
+      <button class="mdc-icon-button material-icons" id="btn-birthdate">date_range</button>
+    </footer>
+    
     <script>
       
       const notify = (msg) => {
@@ -79,6 +120,7 @@
         if(!data) return;
         
         // add your code here
+        
 
         clearNotice();
       };
@@ -87,16 +129,53 @@
         const api = 'https://randomuser.me/api/';
         
         // make API call here
+         const Http = newXMLHttpRequest();
+         const url = 'https://randomuser.me/api/'
+         Http.open("GET", url);
+         Http.send();
+    
+         Http.onreadystatechange=function(){
+         if(this.readyState==4 && this.status== 200){
+         console.log(Http.responseText)
+         }
+       }
+     const rel = "https://randomuser.me/api/";
+     const results = {
+       email:"harrison.kumar@example.com"
+       birthdate:"dob": {
+        "date": "1944-08-29T09:22:48Z",
+        "age": 74,
+       "phone": "(918)-127-3440",
+      },
+    };
         
+      const otherParam = {
+         headers:{
+         "content-type":"application/json; charset=UTF-8"
+         },
+        body:results,
+        method:'GET'
+      };
+
+      fetch(rel,otherParam)
+     .then(data=>{return data.json()})
+     .then(res=>{console.log(res)})
+     .catch(error=>console.log(error))
+     
         notify(`requesting profile data ...`);
       };
       
       const startApp = () => {
         // invoke the getAUserProfile here
+        document.getElementById('btn-address').addEventListener
+        ('click',getBirthDate);
+
+    function getBrithdate(){
+      console.log('email');
+}
       };
 
       startApp();
     </script>
-    <footer><footer button="mdc-icon-button">fff</footer>
   </body>
 </html>
